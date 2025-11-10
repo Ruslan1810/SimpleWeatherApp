@@ -4,44 +4,42 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
-import ru.weather.simpleweatherapp.ui.theme.SimpleWeatherAppTheme
+import androidx.compose.runtime.CompositionLocalProvider
+import androidx.lifecycle.compose.LocalLifecycleOwner
+import dagger.hilt.android.AndroidEntryPoint
+import ru.weather.simpleweatherapp.services.notification.NotificationPermissionManager
+import ru.weather.simpleweatherapp.services.notification.WeatherNotificationManager
+import ru.weather.simpleweatherapp.ui.MainScreen
+import ru.weather.simpleweatherapp.ui.theme.TestWeatherTheme
+import javax.inject.Inject
 
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
+
+    @Inject
+    lateinit var notificationManager: WeatherNotificationManager
+    private lateinit var permissionManager: NotificationPermissionManager
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
+
+        permissionManager = NotificationPermissionManager(this)
+
+        permissionManager.checkAndRequestNotificationPermission { isGranted ->
+            if (isGranted) {
+                notificationManager.startPeriodicNotifications()
+            }
+        }
+
         setContent {
-            SimpleWeatherAppTheme {
-                Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    Greeting(
-                        name = "Android",
-                        modifier = Modifier.padding(innerPadding)
-                    )
+            TestWeatherTheme {
+                CompositionLocalProvider(
+                    LocalLifecycleOwner provides this
+                ) {
+                    MainScreen()
                 }
             }
         }
-    }
-}
-
-@Composable
-fun Greeting(name: String, modifier: Modifier = Modifier) {
-    Text(
-        text = "Hello $name!",
-        modifier = modifier
-    )
-}
-
-@Preview(showBackground = true)
-@Composable
-fun GreetingPreview() {
-    SimpleWeatherAppTheme {
-        Greeting("Android")
     }
 }

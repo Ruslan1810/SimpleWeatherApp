@@ -1,3 +1,34 @@
 <resources>
     <string name="app_name">SimpleWeatherApp</string>
+    <string name="title_app">Прогноз погоды</string>
+    <string name="hourly_forecast_title">Почасовой прогноз на сегодня</string>
+    <string name="space">" "</string>
+    <string name="km_h">km/h</string>
+    <string name="km">km</string>
+    <string name="mb">mb</string>
+    <string name="сelsius">°C</string>
+    <string name="degree">°</string>
+    <string name="percentage">%</string>
+    <string name="three_day_title">Прогноз погоды на 3 дня</string>
+    <string name="https">https:%1$s</string>
+    <string name="wind">Ветер</string>
+    <string name="location_city_country">%1$s, %2$s</string>
+    <string name="fill_like">Ощущается как %1$s%2$s</string>
+    <string name="temp_celcius">%1$s%2$s</string>
+    <string name="pressure">Давление</string>
+    <string name="humidity">Влажность</string>
+    <string name="visibility">Видимость</string>
+    <string name="windKph">%1$s %2$s</string>
+    <string name="temp_degree">%1$s%2$s</string>
+    <string name="percentage_humidity">%1$s%2$s</string>
+    <string name="alert_btn_reboot">Перезагрузить</string>
+    <string name="alert_btn_exit">Выйти</string>
+    <string name="error_network_title">Нет интернета</string>
+    <string name="error_network_desc">Проверьте подключение к интернету и попробуйте снова</string>
+    <string name="error_server_title">Ошибка сервера</string>
+    <string name="error_server_desc">Сервер временно недоступен. Пожалуйста, попробуйте позже</string>
+    <string name="error_unknow_title">Ошибка</string>
+    <string name="error_unknow_desc">Не удалось загрузить данные о погоде</string>
+    <string name="visKm">%1$s %2$s</string>
+    <string name="pressureMb">%1$s %2$s</string>
 </resources>
