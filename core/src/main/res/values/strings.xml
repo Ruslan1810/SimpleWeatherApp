@@ -1,0 +1,10 @@
+<resources>
+    <string name="alert_btn_reboot">Перезагрузить</string>
+    <string name="alert_btn_exit">Выйти</string>
+    <string name="error_network_title">Нет интернета</string>
+    <string name="error_network_desc">Проверьте подключение к интернету и попробуйте снова</string>
+    <string name="error_server_title">Ошибка сервера</string>
+    <string name="error_server_desc">Сервер временно недоступен. Пожалуйста, попробуйте позже</string>
+    <string name="error_unknow_title">Ошибка</string>
+    <string name="error_unknow_desc">Не удалось загрузить данные о погоде</string>
+</resources>

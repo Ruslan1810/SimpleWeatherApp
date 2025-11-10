@@ -31,4 +31,9 @@
     <string name="error_unknow_desc">Не удалось загрузить данные о погоде</string>
     <string name="visKm">%1$s %2$s</string>
     <string name="pressureMb">%1$s %2$s</string>
+    <string name="zero_hours">00 : 00</string>
+    <string name="zero_degree">0°</string>
+    <string name="zero_speed">0 km/h</string>
+    <string name="zero_procent">0%</string>
+    <string name="zeo_day">дн</string>
 </resources>

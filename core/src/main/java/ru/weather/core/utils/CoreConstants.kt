@@ -18,11 +18,18 @@ data class Digital(
     val i3: Int = 3,
     val i4: Int = 4,
     val i5: Int = 5,
+    val i7: Int = 7,
+    val f0: Float = 0F,
+    val f2: Float = 2F,
+    val f3: Float = 3F,
+    val f360: Float = 360F,
+    val i1000: Int = 1000
 )
 
 data class Dimension(
     val d0: Dp = 0.dp,
     val d1: Dp = 1.dp,
+    val d2: Dp = 2.dp,
     val d4: Dp = 4.dp,
     val d8: Dp = 8.dp,
     val d12: Dp = 12.dp,

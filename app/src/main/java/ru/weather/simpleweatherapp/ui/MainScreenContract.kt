@@ -3,6 +3,7 @@ package ru.weather.simpleweatherapp.ui
 import ru.weather.core.base.ViewEvent
 import ru.weather.core.base.ViewSideEffect
 import ru.weather.core.base.ViewState
+import ru.weather.core.comon_ui.model.ErrorType
 import ru.weather.domain.models.CurrentWeatherModel
 import ru.weather.domain.models.ForecastModel
 import ru.weather.domain.models.LocationModel
@@ -59,11 +60,6 @@ enum class LoadingResult{
     ERROR
 }
 
-enum class ErrorType {
-    NETWORK,
-    SERVER,
-    UNKNOWN
-}
 
 enum class LocationState {
     DEFAULT,

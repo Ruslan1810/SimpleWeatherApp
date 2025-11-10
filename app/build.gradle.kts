@@ -89,8 +89,6 @@ dependencies {
     testImplementation(libs.turbine)
     testImplementation(libs.androidx.core.testing)
 
-    // Lottie animation
-    implementation(libs.lottie.compose)
 
     //Hilt
     implementation(libs.hilt.android)

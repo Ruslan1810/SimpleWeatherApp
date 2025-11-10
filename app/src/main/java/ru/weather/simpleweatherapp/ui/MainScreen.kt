@@ -18,22 +18,16 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Refresh
-import androidx.compose.material.icons.filled.Warning
-import androidx.compose.material3.AlertDialog
-import androidx.compose.material3.Button
-import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -42,7 +36,6 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
@@ -63,16 +56,12 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.LocalLifecycleOwner
 import coil.compose.AsyncImage
-import com.airbnb.lottie.compose.LottieAnimation
-import com.airbnb.lottie.compose.LottieCompositionSpec
-import com.airbnb.lottie.compose.LottieConstants
-import com.airbnb.lottie.compose.rememberLottieComposition
 import ru.weather.core.base.ScreenRoute
+import ru.weather.core.comon_ui.ErrorDialog
+import ru.weather.core.comon_ui.ProgressBar
 import ru.weather.core.ext.formatDateToShort
 import ru.weather.core.utils.CoreConstants.digital
 import ru.weather.core.utils.CoreConstants.dimensions
@@ -243,13 +232,13 @@ internal fun CurrentWeatherSection(current: CurrentWeatherModel, location: Locat
                 Box(
                     modifier = Modifier.fillMaxWidth()
                 ) {
-                    var rotationCount by remember { mutableIntStateOf(0) }
+                    var rotationCount by remember { mutableIntStateOf(digital.i0) }
                     var isRotating by remember { mutableStateOf(false) }
                     val rotationAngle by animateFloatAsState(
-                        targetValue = if (isRotating) 360f * 3 else 0f,
-                        animationSpec = tween(durationMillis = 1000, easing = LinearEasing),
+                        targetValue = if (isRotating) digital.f360 * digital.i3 else digital.f0,
+                        animationSpec = tween(durationMillis = digital.i1000, easing = LinearEasing),
                         finishedListener = {
-                            rotationCount = 0
+                            rotationCount = digital.i0
                             isRotating = false
                         }
                     )
@@ -257,9 +246,9 @@ internal fun CurrentWeatherSection(current: CurrentWeatherModel, location: Locat
                     IconButton(
                         modifier = Modifier
                             .align(Alignment.CenterStart)
-                            .size(40.dp)
+                            .size(dimensions.d40)
                             .shadow(
-                                elevation = 2.dp,
+                                elevation = dimensions.d2,
                                 shape = CircleShape,
                                 clip = true
                             )
@@ -270,7 +259,7 @@ internal fun CurrentWeatherSection(current: CurrentWeatherModel, location: Locat
                         onClick = {
                             if (!isRotating) {
                                 isRotating = true
-                                rotationCount = 3
+                                rotationCount = digital.i3
                             }
 
                             event(MainScreenContract.Event.RequestLocation)
@@ -279,17 +268,17 @@ internal fun CurrentWeatherSection(current: CurrentWeatherModel, location: Locat
 
                         val infiniteTransition = rememberInfiniteTransition()
                         val scale by infiniteTransition.animateFloat(
-                            initialValue = 2f,
-                            targetValue = 3f,
+                            initialValue = digital.f2,
+                            targetValue = digital.f3,
                             animationSpec = infiniteRepeatable(
-                                animation = tween(1000),
+                                animation = tween(digital.i1000),
                                 repeatMode = RepeatMode.Reverse
                             )
                         )
 
                         Image(
                             painter = painterResource(id = R.drawable.ic_location),
-                            contentDescription = "Автоопределение местоположения",
+                            contentDescription = null,
                             modifier = Modifier
                                 .scale(scale)
                                 .rotate(rotationAngle)
@@ -320,7 +309,7 @@ internal fun CurrentWeatherSection(current: CurrentWeatherModel, location: Locat
                         modifier = Modifier.size(dimensions.d80),
                         contentAlignment = Alignment.Center
                     ) {
-                        LoadAnimationView(R.raw.loading)
+                        ProgressBar(R.raw.loading)
                     }
                 }
 
@@ -416,7 +405,7 @@ fun HourlyForecastSection(forecast: ForecastModel) {
                         HourlyForecastItem(hour = hour)
                     }
                 } else {
-                    items(8) {
+                    items(digital.i7) {
                         HourlyForecastItemLoading()
                     }
                 }
@@ -473,25 +462,25 @@ fun HourlyForecastItemLoading() {
     ) {
 
         Text(
-            text = "00 : 00",
+            text = stringResource(R.string.zero_hours),
             style = MaterialTheme.typography.bodyMedium
         )
         Box(
             modifier = Modifier.size(dimensions.d40),
             contentAlignment = Alignment.Center
         ) {
-            LoadAnimationView(R.raw.sunny)
+            ProgressBar(R.raw.sunny)
 
         }
 
         Text(
-            text = "0°",
+            text = stringResource(R.string.zero_degree),
             style = MaterialTheme.typography.bodyLarge,
             fontWeight = FontWeight.Bold
         )
 
         Text(
-            text = "0 km/h",
+            text = stringResource(R.string.zero_speed),
             style = MaterialTheme.typography.bodySmall,
             color = Color.Blue
         )
@@ -584,34 +573,33 @@ fun DailyForecastItemLoading() {
         verticalArrangement = Arrangement.spacedBy(dimensions.d4)
     ) {
         Text(
-            text = "дн",
+            text = stringResource(R.string.zeo_day),
             style = MaterialTheme.typography.bodyMedium
         )
         Box(
             modifier = Modifier.size(dimensions.d40),
             contentAlignment = Alignment.Center
         ) {
-            LoadAnimationView(R.raw.rainy)
+            ProgressBar(R.raw.rainy)
         }
 
         Text(
-            text = "0°",
+            text = stringResource(R.string.zero_degree),
             style = MaterialTheme.typography.bodyLarge,
             fontWeight = FontWeight.Bold
         )
         Text(
-            text = "0°",
+            text = stringResource(R.string.zero_degree),
             style = MaterialTheme.typography.bodySmall,
             color = MaterialTheme.colorScheme.onSurfaceVariant
         )
         Text(
-            text = "0%",
+            text = stringResource(R.string.zero_procent),
             style = MaterialTheme.typography.bodySmall,
             color = Color.Blue
         )
     }
 }
-
 
 @Composable
 fun WeatherDetailCard(title: String, value: String) {
@@ -632,96 +620,3 @@ fun WeatherDetailCard(title: String, value: String) {
         )
     }
 }
-
-@Composable
-fun ErrorDialog(
-    errorType: ErrorType,
-    onRetry: () -> Unit,
-    onDismiss: () -> Unit = {}
-) {
-    val (title, message) = when (errorType) {
-        ErrorType.NETWORK -> Pair(
-            stringResource(R.string.error_network_title),
-            stringResource(R.string.error_network_desc)
-        )
-
-        ErrorType.SERVER -> Pair(
-            stringResource(R.string.error_server_title),
-            stringResource(R.string.error_server_desc)
-        )
-
-        ErrorType.UNKNOWN -> Pair(
-            stringResource(R.string.error_unknow_title),
-            stringResource(R.string.error_unknow_desc)
-        )
-    }
-
-    AlertDialog(
-        onDismissRequest = onDismiss,
-        title = {
-            Row(
-                verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.Center,
-                modifier = Modifier.fillMaxWidth()
-            ) {
-                Icon(
-                    imageVector = Icons.Default.Warning,
-                    contentDescription = null,
-                    modifier = Modifier.size(dimensions.d24),
-                    tint = MaterialTheme.colorScheme.error
-                )
-                Spacer(modifier = Modifier.width(dimensions.d8))
-                Text(
-                    text = title,
-                    style = MaterialTheme.typography.headlineSmall
-                )
-            }
-        },
-        text = {
-            Text(
-                text = message,
-                style = MaterialTheme.typography.bodyMedium,
-                textAlign = TextAlign.Center,
-                modifier = Modifier.fillMaxWidth()
-            )
-        },
-        confirmButton = {
-            Button(
-                onClick = onRetry,
-                colors = ButtonDefaults.buttonColors(
-                    containerColor = MaterialTheme.colorScheme.primary
-                ),
-                modifier = Modifier.fillMaxWidth()
-            ) {
-                Text(stringResource(R.string.alert_btn_reboot))
-            }
-        },
-        dismissButton = {
-            TextButton(
-                onClick = onDismiss,
-                modifier = Modifier.fillMaxWidth()
-            ) {
-                Text(stringResource(R.string.alert_btn_exit))
-            }
-        }
-    )
-}
-
-@Composable
-fun LoadAnimationView(resId: Int) {
-    Column(
-        modifier = Modifier.fillMaxSize(),
-        horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Center
-    ) {
-
-        val composition by rememberLottieComposition(
-            spec = LottieCompositionSpec.RawRes(resId = resId)
-        )
-        LottieAnimation(
-            composition = composition,
-            iterations = LottieConstants.IterateForever
-        )
-    }
-}
-

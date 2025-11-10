@@ -7,6 +7,7 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import retrofit2.HttpException
 import ru.weather.core.base.BaseViewModel
+import ru.weather.core.comon_ui.model.ErrorType
 import ru.weather.domain.models.LocationResult
 import ru.weather.domain.usecase.GetLocationUseCase
 import ru.weather.domain.usecase.GetWeatherUseCase
