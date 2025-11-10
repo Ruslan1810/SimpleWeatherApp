@@ -89,7 +89,6 @@ dependencies {
     testImplementation(libs.turbine)
     testImplementation(libs.androidx.core.testing)
 
-
     //Hilt
     implementation(libs.hilt.android)
     implementation(libs.hilt.navigation.compose)

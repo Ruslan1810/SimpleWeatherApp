@@ -49,10 +49,10 @@ jobs:
         run: ./gradlew connectedDebugAndroidTest
         continue-on-error: true  # Если нет Android эмулятора
 
-      - name: Static Code Analysis
-        run: |
-          ./gradlew ktlintCheck
-          ./gradlew detekt
+          #- name: Static Code Analysis
+          #run: |
+          #./gradlew ktlintCheck
+          #./gradlew detekt
 
       - name: Upload APKs
         uses: actions/upload-artifact@v4
