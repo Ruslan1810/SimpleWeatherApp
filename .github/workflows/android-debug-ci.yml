@@ -49,8 +49,8 @@ jobs:
         run: ./gradlew connectedDebugAndroidTest
         continue-on-error: true  # Если нет Android эмулятора
 
-          #- name: Static Code Analysis
-          #run: |
+      #- name: Static Code Analysis
+       # run: |
           #./gradlew ktlintCheck
           #./gradlew detekt
 
