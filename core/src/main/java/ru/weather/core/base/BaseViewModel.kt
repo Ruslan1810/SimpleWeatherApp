@@ -26,7 +26,6 @@ abstract class BaseViewModel<
     ViewModel() {
 
     private val initialState: UiState by lazy { setInitialState() }
-
     private val _event: MutableSharedFlow<Event> = MutableSharedFlow()
     private val event: SharedFlow<Event> = _event
     private val _effect: Channel<Effect> = Channel(Channel.BUFFERED)
