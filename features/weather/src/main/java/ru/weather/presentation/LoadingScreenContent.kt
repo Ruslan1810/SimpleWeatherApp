@@ -1,4 +1,4 @@
-package ru.weather.simpleweatherapp.ui
+package ru.weather.presentation
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues
@@ -23,7 +23,7 @@ import ru.weather.core.utils.CoreConstants.dimensions
 import ru.weather.domain.models.CurrentWeatherModel
 import ru.weather.domain.models.ForecastModel
 import ru.weather.domain.models.LocationModel
-import ru.weather.simpleweatherapp.R
+import ru.weather.weather.R
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable

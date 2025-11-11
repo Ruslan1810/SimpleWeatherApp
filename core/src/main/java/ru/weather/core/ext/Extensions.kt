@@ -1,5 +1,9 @@
 package ru.weather.core.ext
 
+import androidx.compose.runtime.Composable
+import androidx.navigation.NavBackStackEntry
+import ru.weather.core.navigation.LocalNavigationManager
+import ru.weather.core.navigation.NavigationManager
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale

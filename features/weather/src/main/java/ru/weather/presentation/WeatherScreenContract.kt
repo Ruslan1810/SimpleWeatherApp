@@ -1,4 +1,4 @@
-package ru.weather.simpleweatherapp.ui
+package ru.weather.presentation
 
 import ru.weather.core.base.ViewEvent
 import ru.weather.core.base.ViewSideEffect
@@ -8,9 +8,9 @@ import ru.weather.domain.models.CurrentWeatherModel
 import ru.weather.domain.models.ForecastModel
 import ru.weather.domain.models.LocationModel
 import ru.weather.domain.models.WeatherDataModel
-import ru.weather.simpleweatherapp.models.LocationData
+import ru.weather.models.LocationData
 
-class MainScreenContract {
+class WeatherScreenContract {
 
     data class State(
         val loadingResult: LoadingResult,

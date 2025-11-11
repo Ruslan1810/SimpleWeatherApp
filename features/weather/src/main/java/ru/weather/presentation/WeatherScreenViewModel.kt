@@ -1,34 +1,34 @@
-package ru.weather.simpleweatherapp.ui
+package ru.weather.presentation
 
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import retrofit2.HttpException
 import ru.weather.core.base.BaseViewModel
 import ru.weather.core.comon_ui.model.ErrorType
+import ru.weather.core.navigation.NavigationManager
 import ru.weather.domain.models.LocationResult
 import ru.weather.domain.usecase.GetLocationUseCase
 import ru.weather.domain.usecase.GetWeatherUseCase
-import ru.weather.simpleweatherapp.models.LocationData
+import ru.weather.models.LocationData
 import java.io.IOException
 import javax.inject.Inject
 
 @HiltViewModel
-class MainScreenViewModel @Inject constructor(
+class WeatherScreenViewModel @Inject constructor(
     private val weatherUseCase: GetWeatherUseCase,
-    private val locationUseCase: GetLocationUseCase
-) : BaseViewModel<MainScreenContract.Event, MainScreenContract.State, MainScreenContract.Effect>() {
+    private val locationUseCase: GetLocationUseCase,
+    private val navigationManager: NavigationManager
+) : BaseViewModel<WeatherScreenContract.Event, WeatherScreenContract.State, WeatherScreenContract.Effect>() {
 
     init {
         getWeatherData()
     }
 
     private fun getWeatherData(locationData: LocationData = currentState.locationData) {
-
         viewModelScope.launch(Dispatchers.IO) {
-            setEvent(event = MainScreenContract.Event.LoadingData)
+            setEvent(event = WeatherScreenContract.Event.LoadingData)
 
             /** По условию задания должент быть прогресбар,
              *  добавил задержку чтобы он был виден если быстрый интернет */
@@ -40,45 +40,45 @@ class MainScreenViewModel @Inject constructor(
                 language = locationData.language
             )
                 .onSuccess {
-                    setEvent(event = MainScreenContract.Event.LoadDataSuccess(data = it))
+                    setEvent(event = WeatherScreenContract.Event.LoadDataSuccess(data = it))
                 }.onFailure {
                     val errorType = when (it) {
                         is IOException -> ErrorType.NETWORK
-                        is HttpException -> ErrorType.SERVER
+//                        is HttpException -> ErrorType.SERVER
                         else -> ErrorType.UNKNOWN
                     }
                     setEvent(
-                        event = MainScreenContract.Event.LoadDataError(errorType = errorType)
+                        event = WeatherScreenContract.Event.LoadDataError(errorType = errorType)
                     )
                 }
         }
     }
 
-    override fun setInitialState() = MainScreenContract.State.default()
+    override fun setInitialState() = WeatherScreenContract.State.default()
 
-    override fun handleEvents(event: MainScreenContract.Event) {
+    override fun handleEvents(event: WeatherScreenContract.Event) {
         when (event) {
-            is MainScreenContract.Event.LoadDataSuccess -> setState {
+            is WeatherScreenContract.Event.LoadDataSuccess -> setState {
                 copy(loadingResult = LoadingResult.SUCCESS, data = event.data)
             }
 
-            is MainScreenContract.Event.LoadDataError -> setState {
+            is WeatherScreenContract.Event.LoadDataError -> setState {
                 copy(loadingResult = LoadingResult.ERROR, errorType = event.errorType)
             }
 
-            is MainScreenContract.Event.LoadingData -> setState {
+            is WeatherScreenContract.Event.LoadingData -> setState {
                 copy(loadingResult = LoadingResult.LOADING)
             }
 
-            is MainScreenContract.Event.RetryLoading -> {
+            is WeatherScreenContract.Event.RetryLoading -> {
                 getWeatherData(locationData = currentState.locationData)
             }
 
-            is MainScreenContract.Event.RequestLocation -> {
+            is WeatherScreenContract.Event.RequestLocation -> {
                 requestLocation()
             }
 
-            is MainScreenContract.Event.LocationDetected -> {
+            is WeatherScreenContract.Event.LocationDetected -> {
                 setState {
                     copy(
                         locationState = LocationState.DETECTED,
@@ -87,21 +87,20 @@ class MainScreenViewModel @Inject constructor(
                 }
                 getWeatherData(locationData = currentState.locationData)
                 setEffect {
-                    MainScreenContract.Effect.ShowToast("Местоположение определено!")
+                    WeatherScreenContract.Effect.ShowToast("Местоположение определено!")
                 }
             }
 
-            is MainScreenContract.Event.LocationError -> {
+            is WeatherScreenContract.Event.LocationError -> {
                 setState {
                     copy(locationState = LocationState.ERROR)
                 }
                 setEffect {
-                    MainScreenContract.Effect.ShowLocationError("Не удалось определить местоположение")
+                    WeatherScreenContract.Effect.ShowLocationError("Не удалось определить местоположение")
                 }
             }
         }
     }
-
 
     private fun requestLocation() {
         setState {
@@ -112,7 +111,7 @@ class MainScreenViewModel @Inject constructor(
             when (val result = locationUseCase.getLocationUseCase()) {
                 is LocationResult.Success -> {
                     setEvent(
-                        MainScreenContract.Event.LocationDetected(
+                        WeatherScreenContract.Event.LocationDetected(
                             latitude = result.latitude,
                             longitude = result.longitude
                         )
@@ -121,14 +120,14 @@ class MainScreenViewModel @Inject constructor(
 
                 is LocationResult.PermissionRequired -> {
                     setEffect {
-                        MainScreenContract.Effect.RequestLocationPermission {
+                        WeatherScreenContract.Effect.RequestLocationPermission {
                             requestLocation()
                         }
                     }
                 }
 
                 is LocationResult.Error -> {
-                    setEvent(MainScreenContract.Event.LocationError)
+                    setEvent(WeatherScreenContract.Event.LocationError)
                 }
             }
         }

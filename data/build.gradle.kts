@@ -6,7 +6,7 @@ plugins {
 
 android {
     namespace = "ru.weather.data"
-    compileSdk = 35
+    compileSdk = 36
 
     defaultConfig {
         minSdk = 28
@@ -36,6 +36,9 @@ android {
 
     buildFeatures {
         buildConfig = true
+    }
+    composeOptions {
+        kotlinCompilerExtensionVersion = "1.6.10"  // Совместимо с Kotlin 2.0.21
     }
 }
 

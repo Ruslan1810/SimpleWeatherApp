@@ -1,4 +1,4 @@
-package ru.weather.simpleweatherapp.models
+package ru.weather.models
 
 
 /** По умолчанию локация - Москва */

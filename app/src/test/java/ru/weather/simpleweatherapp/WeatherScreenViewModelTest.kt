@@ -21,17 +21,17 @@ import ru.weather.domain.models.LocationModel
 import ru.weather.domain.models.WeatherDataModel
 import ru.weather.domain.usecase.GetLocationUseCase
 import ru.weather.domain.usecase.GetWeatherUseCase
-import ru.weather.simpleweatherapp.ui.LoadingResult
-import ru.weather.simpleweatherapp.ui.MainScreenViewModel
+import ru.weather.presentation.LoadingResult
+import ru.weather.presentation.WeatherScreenViewModel
 import java.io.IOException
 
 @ExperimentalCoroutinesApi
-class MainScreenViewModelTest {
+class WeatherScreenViewModelTest {
 
     @get:Rule
     val mainDispatcherRule = MainDispatcherRule()
 
-    private lateinit var viewModel: MainScreenViewModel
+    private lateinit var viewModel: WeatherScreenViewModel
     private val mockUseCase: GetWeatherUseCase = mockk()
     private val mockUseCase2: GetLocationUseCase = mockk()
 
@@ -49,7 +49,7 @@ class MainScreenViewModelTest {
                 )
             } returns Result.success(WeatherDataModel.default())
 
-            viewModel = MainScreenViewModel(mockUseCase, mockUseCase2)
+            viewModel = WeatherScreenViewModel(mockUseCase, mockUseCase2)
 
             viewModel.viewState.test {
                 assertEquals(LoadingResult.LOADING, awaitItem().loadingResult)
@@ -77,7 +77,7 @@ class MainScreenViewModelTest {
             )
         } returns Result.success(mockData)
 
-        viewModel = MainScreenViewModel(mockUseCase, mockUseCase2)
+        viewModel = WeatherScreenViewModel(mockUseCase, mockUseCase2)
 
         assertEquals("Москва", viewModel.currentState.data.location.name)
         assertEquals(mockData, viewModel.viewState.value.data)
@@ -98,7 +98,7 @@ class MainScreenViewModelTest {
                 )
             } returns Result.failure(networkException)
 
-            viewModel = MainScreenViewModel(mockUseCase, mockUseCase2)
+            viewModel = WeatherScreenViewModel(mockUseCase, mockUseCase2)
 
             viewModel.viewState.test {
                 val loadingState = awaitItem()
@@ -139,7 +139,7 @@ class MainScreenViewModelTest {
                 )
             } returns Result.failure(serverException)
 
-            viewModel = MainScreenViewModel(mockUseCase, mockUseCase2)
+            viewModel = WeatherScreenViewModel(mockUseCase, mockUseCase2)
 
             viewModel.viewState.test {
                 awaitItem()
@@ -177,7 +177,7 @@ class MainScreenViewModelTest {
                 )
             } returns Result.failure(unknownException)
 
-            viewModel = MainScreenViewModel(mockUseCase, mockUseCase2)
+            viewModel = WeatherScreenViewModel(mockUseCase, mockUseCase2)
 
             viewModel.viewState.test {
                 awaitItem()
