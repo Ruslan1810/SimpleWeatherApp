@@ -2,7 +2,7 @@ package ru.weather.navigation
 
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
-import ru.weather.presentation.WeatherNavGraph
+import ru.weather.presentation.WeatherScreen
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -12,7 +12,7 @@ class WeatherFeatureApi @Inject constructor() : WeatherApi {
 
     override fun registerGraph(navGraphBuilder: NavGraphBuilder) {
         navGraphBuilder.composable(route = baseRoute) {
-            WeatherNavGraph()
+            WeatherScreen()
         }
 
         navGraphBuilder.composable(

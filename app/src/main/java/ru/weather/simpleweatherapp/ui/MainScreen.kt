@@ -47,7 +47,7 @@ fun MainScreen(
                         popUpTo(navController.currentBackStackEntry?.destination?.route ?: return@navigate)
                     }
                 }
-                else -> { /* другие действия */ }
+                else -> {  }
             }
         }
     }
@@ -70,7 +70,7 @@ fun MainScreen(
                                 restoreState = true
                             }
                         },
-                        icon = { Icon(Icons.Default.DateRange, contentDescription = "Weather") },
+                        icon = { Icon(Icons.Default.DateRange, contentDescription = null) },
                         label = { Text("Погода") }
                     )
                     NavigationBarItem(
@@ -81,7 +81,7 @@ fun MainScreen(
                                 restoreState = true
                             }
                         },
-                        icon = { Icon(Icons.Default.Home, contentDescription = "Cities") },
+                        icon = { Icon(Icons.Default.Home, contentDescription = null) },
                         label = { Text("Города") }
                     )
                     NavigationBarItem(
@@ -92,7 +92,7 @@ fun MainScreen(
                                 restoreState = true
                             }
                         },
-                        icon = { Icon(Icons.Default.Settings, contentDescription = "Settings") },
+                        icon = { Icon(Icons.Default.Settings, contentDescription = null) },
                         label = { Text("Настройки") }
                     )
                 }

@@ -73,6 +73,11 @@ import ru.weather.domain.models.WeatherDataModel
 import ru.weather.models.StateEventEffectModel
 import ru.weather.weather.R
 
+internal val localStateEventEffectModel = compositionLocalOf<StateEventEffectModel> {
+    error("No StateEventEffectModel class found!")
+}
+
+
 @Composable
 internal fun WeatherScreen() {
     val viewModel = hiltViewModel<WeatherScreenViewModel>()
@@ -119,14 +124,14 @@ internal fun WeatherScreen() {
         }
 
         CompositionLocalProvider(localStateEventEffectModel provides model) {
-            MainScreenContent()
+            WeatherScreenContent()
         }
     }
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-private fun MainScreenContent() {
+private fun WeatherScreenContent() {
     val event = localStateEventEffectModel.current.event
     val state = localStateEventEffectModel.current.state
 
