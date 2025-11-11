@@ -17,109 +17,122 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun CitiesScreen() {
-    val model = localStateEventEffectModel.current
-    val state = model.state
 
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(16.dp)
-    ) {
-        Text(
-            "My Cities",
-            style = MaterialTheme.typography.headlineMedium
-        )
-
-        Spacer(modifier = Modifier.height(24.dp))
-
-        // Кнопки действий
-        Row(
-            modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.spacedBy(8.dp)
+    Scaffold(
+        topBar = {
+            TopAppBar(
+                title = {
+                    Text(
+                        text = "Города",
+                        style = MaterialTheme.typography.titleLarge,
+                        fontWeight = FontWeight.Bold,
+                    )
+                }
+            )
+        }
+    ) { paddingValues ->
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(paddingValues)
         ) {
-            Button(
-                onClick = {  },
-                modifier = Modifier.weight(1f)
-            ) {
-                Text("Search")
-            }
 
-            Button(
-                onClick = {  },
-                modifier = Modifier.weight(1f)
-            ) {
-                Text("Add City")
-            }
-        }
+//        Spacer(modifier = Modifier.height(24.dp))
+//
+//        // Кнопки действий
+//        Row(
+//            modifier = Modifier.fillMaxWidth(),
+//            horizontalArrangement = Arrangement.spacedBy(8.dp)
+//        ) {
+//            Button(
+//                onClick = {  },
+//                modifier = Modifier.weight(1f)
+//            ) {
+//                Text("Search")
+//            }
+//
+//            Button(
+//                onClick = {  },
+//                modifier = Modifier.weight(1f)
+//            ) {
+//                Text("Add City")
+//            }
+//        }
+//
+//        Spacer(modifier = Modifier.height(16.dp))
+//
+//        // Состояние загрузки
+//        if (state.isLoading) {
+//            CircularProgressIndicator(
+//                modifier = Modifier.align(Alignment.CenterHorizontally)
+//            )
+//        }
+//
+//        // Сообщение об ошибке
+//        state.error?.let { error ->
+//            Text(
+//                text = error,
+//                color = MaterialTheme.colorScheme.error,
+//                modifier = Modifier.padding(vertical = 8.dp)
+//            )
+//        }
+//
+//        // Список городов
+//        LazyColumn {
+//            items(10) { city ->
+//                CityListItem(
+//                    city = City(),
+//                    onCityClick = {  },
+//                    onDeleteClick = {  }
+//                )
+//            }
+//        }
 
-        Spacer(modifier = Modifier.height(16.dp))
-
-        // Состояние загрузки
-        if (state.isLoading) {
-            CircularProgressIndicator(
-                modifier = Modifier.align(Alignment.CenterHorizontally)
-            )
-        }
-
-        // Сообщение об ошибке
-        state.error?.let { error ->
-            Text(
-                text = error,
-                color = MaterialTheme.colorScheme.error,
-                modifier = Modifier.padding(vertical = 8.dp)
-            )
-        }
-
-        // Список городов
-        LazyColumn {
-            items(10) { city ->
-                CityListItem(
-                    city = City(),
-                    onCityClick = {  },
-                    onDeleteClick = {  }
-                )
-            }
-        }
-
-        // Empty state
-        if (state.isLoading) {
-            Column(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .padding(32.dp),
-                horizontalAlignment = Alignment.CenterHorizontally,
-                verticalArrangement = Arrangement.Center
-            ) {
-                Icon(
-                    Icons.Default.DateRange,
-                    contentDescription = "No cities",
-                    modifier = Modifier.size(64.dp),
-                    tint = Color.Gray
-                )
-                Spacer(modifier = Modifier.height(16.dp))
-                Text(
-                    "No cities added yet",
-                    style = MaterialTheme.typography.bodyLarge,
-                    color = Color.Gray
-                )
-                Text(
-                    "Add your first city to see weather information",
-                    style = MaterialTheme.typography.bodyMedium,
-                    color = Color.Gray
-                )
-            }
+            // Empty state
+//        if (state.isLoading) {
+//            Column(
+//                modifier = Modifier
+//                    .fillMaxSize()
+//                    .padding(32.dp),
+//                horizontalAlignment = Alignment.CenterHorizontally,
+//                verticalArrangement = Arrangement.Center
+//            ) {
+//                Icon(
+//                    Icons.Default.DateRange,
+//                    contentDescription = "No cities",
+//                    modifier = Modifier.size(64.dp),
+//                    tint = Color.Gray
+//                )
+//                Spacer(modifier = Modifier.height(16.dp))
+//                Text(
+//                    "No cities added yet",
+//                    style = MaterialTheme.typography.bodyLarge,
+//                    color = Color.Gray
+//                )
+//                Text(
+//                    "Add your first city to see weather information",
+//                    style = MaterialTheme.typography.bodyMedium,
+//                    color = Color.Gray
+//                )
+//            }
+//        }
         }
     }
 }
