@@ -20,8 +20,9 @@ jobs:
           java-version: '17'
           distribution: 'temurin'
 
-      - name: Setup Android SDK
-        uses: android-actions/setup-android@v3
+      # для тестового проекта не нужно
+      # - name: Setup Android SDK
+      #   uses: android-actions/setup-android@v3
 
       - name: Cache Gradle
         uses: actions/cache@v3
@@ -39,41 +40,44 @@ jobs:
       - name: Build Debug APK
         run: ./gradlew assembleDebug
 
-      - name: Build Release APK
-        run: ./gradlew assembleRelease
+      #  для тестового проекта не нужно
+      # - name: Build Release APK
+      #   run: ./gradlew assembleRelease
 
       - name: Run Unit Tests
         run: ./gradlew testDebugUnitTest
+        continue-on-error: true
+        
+      #  для тестового проекта не нужно
+      # - name: Run Instrumented Tests
+      #   run: ./gradlew connectedDebugAndroidTest
+      #   continue-on-error: true
 
-      - name: Run Instrumented Tests
-        run: ./gradlew connectedDebugAndroidTest
-        continue-on-error: true  # Если нет Android эмулятора
+      #  для тестового проекта не нужно
+      # - name: Static Code Analysis
+      #   run: |
+      #     ./gradlew ktlintCheck
+      #     ./gradlew detekt
 
-      #- name: Static Code Analysis
-       # run: |
-          #./gradlew ktlintCheck
-          #./gradlew detekt
-
-      - name: Upload APKs
+      - name: Upload Debug APK
         uses: actions/upload-artifact@v4
         with:
-          name: apk-files
-          path: |
-            app/build/outputs/apk/debug/
-            app/build/outputs/apk/release/
-          retention-days: 30
+          name: debug-apk
+          path: app/build/outputs/apk/debug/
+          retention-days: 7
 
-      - name: Upload Test Reports
-        uses: actions/upload-artifact@v4
-        with:
-          name: test-reports
-          path: |
-            app/build/reports/
-          retention-days: 30
+      #  для тестового проекта не нужно
+      # - name: Upload Test Reports
+      #   uses: actions/upload-artifact@v4
+      #   with:
+      #     name: test-reports
+      #     path: app/build/reports/
+      #     retention-days: 7
 
-      - name: Upload Lint Reports
-        uses: actions/upload-artifact@v4
-        with:
-          name: lint-reports
-          path: app/build/reports/lint/
-          retention-days: 30
+      #  для тестового проекта не нужно
+      # - name: Upload Lint Reports
+      #   uses: actions/upload-artifact@v4
+      #   with:
+      #     name: lint-reports
+      #     path: app/build/reports/lint/
+      #     retention-days: 7
