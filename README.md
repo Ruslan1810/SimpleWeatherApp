@@ -19,17 +19,17 @@
   <table>
     <tr>
       <td align="center">
-        <img src="https://user-images.githubusercontent.com/52200692/512080191-b3f6b302-51e3-4ce6-bcb2-5aec4cfdd448.jpg" width="200" alt="Главный экран">
+        <img src="https://github.com/user-attachments/assets/b3f6b302-51e3-4ce6-bcb2-5aec4cfdd448" width="200" alt="Главный экран">
         <br>
         <strong>🏠 Главный экран</strong>
       </td>
       <td align="center">
-        <img src="https://user-images.githubusercontent.com/52200692/512372232-c938d467-c91d-4913-9f32-dc441605ce47.jpg" width="200" alt="Экран загрузки">
+        <img src="https://github.com/user-attachments/assets/c938d467-c91d-4913-9f32-dc441605ce47" width="200" alt="Экран загрузки">
         <br>
         <strong>⏳ Загрузка данных</strong>
       </td>
       <td align="center">
-        <img src="https://user-images.githubusercontent.com/52200692/512369391-ef1930ec-f468-4b52-988e-b141c4c3dd99.jpg" width="200" alt="Экран ошибки">
+        <img src="https://github.com/user-attachments/assets/ef1930ec-f468-4b52-988e-b141c4c3dd99" width="200" alt="Экран ошибки">
         <br>
         <strong>⚠️ Ошибка соединения</strong>
       </td>
