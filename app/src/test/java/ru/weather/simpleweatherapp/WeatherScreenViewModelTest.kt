@@ -17,6 +17,7 @@ import org.junit.rules.TestWatcher
 import org.junit.runner.Description
 import retrofit2.HttpException
 import ru.weather.core.comon_ui.model.ErrorType
+import ru.weather.core.navigation.NavigationManager
 import ru.weather.domain.models.LocationModel
 import ru.weather.domain.models.WeatherDataModel
 import ru.weather.domain.usecase.GetLocationUseCase
@@ -32,8 +33,9 @@ class WeatherScreenViewModelTest {
     val mainDispatcherRule = MainDispatcherRule()
 
     private lateinit var viewModel: WeatherScreenViewModel
-    private val mockUseCase: GetWeatherUseCase = mockk()
-    private val mockUseCase2: GetLocationUseCase = mockk()
+    private val getWeatherUseCase: GetWeatherUseCase = mockk()
+    private val getLocationUseCase: GetLocationUseCase = mockk()
+    private val navigationManager: NavigationManager = mockk()
 
     /** Тест смены состояний */
     @Test
@@ -41,7 +43,7 @@ class WeatherScreenViewModelTest {
         Dispatchers.setMain(StandardTestDispatcher(testScheduler))
         try {
             coEvery {
-                mockUseCase.getWeatherData(
+                getWeatherUseCase.getWeatherData(
                     any(),
                     any(),
                     any(),
@@ -49,7 +51,7 @@ class WeatherScreenViewModelTest {
                 )
             } returns Result.success(WeatherDataModel.default())
 
-            viewModel = WeatherScreenViewModel(mockUseCase, mockUseCase2)
+            viewModel = WeatherScreenViewModel(getWeatherUseCase, getLocationUseCase, navigationManager)
 
             viewModel.viewState.test {
                 assertEquals(LoadingResult.LOADING, awaitItem().loadingResult)
@@ -69,7 +71,7 @@ class WeatherScreenViewModelTest {
         )
 
         coEvery {
-            mockUseCase.getWeatherData(
+            getWeatherUseCase.getWeatherData(
                 any(),
                 any(),
                 any(),
@@ -77,7 +79,7 @@ class WeatherScreenViewModelTest {
             )
         } returns Result.success(mockData)
 
-        viewModel = WeatherScreenViewModel(mockUseCase, mockUseCase2)
+        viewModel = WeatherScreenViewModel(getWeatherUseCase, getLocationUseCase, navigationManager)
 
         assertEquals("Москва", viewModel.currentState.data.location.name)
         assertEquals(mockData, viewModel.viewState.value.data)
@@ -90,7 +92,7 @@ class WeatherScreenViewModelTest {
         try {
             val networkException = IOException("Проверьте подключение к интернету")
             coEvery {
-                mockUseCase.getWeatherData(
+                getWeatherUseCase.getWeatherData(
                     any(),
                     any(),
                     any(),
@@ -98,7 +100,7 @@ class WeatherScreenViewModelTest {
                 )
             } returns Result.failure(networkException)
 
-            viewModel = WeatherScreenViewModel(mockUseCase, mockUseCase2)
+            viewModel = WeatherScreenViewModel(getWeatherUseCase, getLocationUseCase, navigationManager)
 
             viewModel.viewState.test {
                 val loadingState = awaitItem()
@@ -112,7 +114,7 @@ class WeatherScreenViewModelTest {
             }
 
             coVerify(exactly = 1) {
-                mockUseCase.getWeatherData(
+                getWeatherUseCase.getWeatherData(
                     any(),
                     any(),
                     any(),
@@ -131,7 +133,7 @@ class WeatherScreenViewModelTest {
         try {
             val serverException = mockk<HttpException>()
             coEvery {
-                mockUseCase.getWeatherData(
+                getWeatherUseCase.getWeatherData(
                     any(),
                     any(),
                     any(),
@@ -139,7 +141,7 @@ class WeatherScreenViewModelTest {
                 )
             } returns Result.failure(serverException)
 
-            viewModel = WeatherScreenViewModel(mockUseCase, mockUseCase2)
+            viewModel = WeatherScreenViewModel(getWeatherUseCase, getLocationUseCase, navigationManager)
 
             viewModel.viewState.test {
                 awaitItem()
@@ -150,7 +152,7 @@ class WeatherScreenViewModelTest {
             }
 
             coVerify(exactly = 1) {
-                mockUseCase.getWeatherData(
+                getWeatherUseCase.getWeatherData(
                     any(),
                     any(),
                     any(),
@@ -169,7 +171,7 @@ class WeatherScreenViewModelTest {
         try {
             val unknownException = RuntimeException("Неизвестная ошибка")
             coEvery {
-                mockUseCase.getWeatherData(
+                getWeatherUseCase.getWeatherData(
                     any(),
                     any(),
                     any(),
@@ -177,7 +179,7 @@ class WeatherScreenViewModelTest {
                 )
             } returns Result.failure(unknownException)
 
-            viewModel = WeatherScreenViewModel(mockUseCase, mockUseCase2)
+            viewModel = WeatherScreenViewModel(getWeatherUseCase, getLocationUseCase, navigationManager)
 
             viewModel.viewState.test {
                 awaitItem()
@@ -188,7 +190,7 @@ class WeatherScreenViewModelTest {
             }
 
             coVerify(exactly = 1) {
-                mockUseCase.getWeatherData(
+                getWeatherUseCase.getWeatherData(
                     any(),
                     any(),
                     any(),
