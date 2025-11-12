@@ -183,7 +183,7 @@ private fun WeatherScreenContent() {
 }
 
 @Composable
-fun WeatherContent(
+private fun WeatherContent(
     weatherData: WeatherDataModel,
     paddingValues: PaddingValues
 ) {
@@ -378,7 +378,7 @@ internal fun CurrentWeatherSection(current: CurrentWeatherModel, location: Locat
 }
 
 @Composable
-fun HourlyForecastSection(forecast: ForecastModel) {
+internal fun HourlyForecastSection(forecast: ForecastModel) {
     val todayForecast = forecast.forecastDays.firstOrNull()
     val hourlyForecast = todayForecast?.hour ?: emptyList()
 
@@ -414,7 +414,7 @@ fun HourlyForecastSection(forecast: ForecastModel) {
 }
 
 @Composable
-fun HourlyForecastItem(hour: HourForecastModel) {
+private fun HourlyForecastItem(hour: HourForecastModel) {
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.spacedBy(dimensions.d4)
@@ -453,40 +453,7 @@ fun HourlyForecastItem(hour: HourForecastModel) {
 }
 
 @Composable
-fun HourlyForecastItemLoading() {
-    Column(
-        horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.spacedBy(dimensions.d4)
-    ) {
-
-        Text(
-            text = stringResource(R.string.zero_hours),
-            style = MaterialTheme.typography.bodyMedium
-        )
-        Box(
-            modifier = Modifier.size(dimensions.d40),
-            contentAlignment = Alignment.Center
-        ) {
-            ProgressBar(R.raw.sunny)
-
-        }
-
-        Text(
-            text = stringResource(R.string.zero_degree),
-            style = MaterialTheme.typography.bodyLarge,
-            fontWeight = FontWeight.Bold
-        )
-
-        Text(
-            text = stringResource(R.string.zero_speed),
-            style = MaterialTheme.typography.bodySmall,
-            color = Color.Blue
-        )
-    }
-}
-
-@Composable
-fun ThreeDayForecastSection(forecast: ForecastModel) {
+internal fun ThreeDayForecastSection(forecast: ForecastModel) {
     Card(
         modifier = Modifier.fillMaxWidth()
     ) {
@@ -519,7 +486,7 @@ fun ThreeDayForecastSection(forecast: ForecastModel) {
 }
 
 @Composable
-fun DailyForecastItem(day: ForecastDayModel) {
+private fun DailyForecastItem(day: ForecastDayModel) {
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.spacedBy(dimensions.d4)
@@ -564,43 +531,9 @@ fun DailyForecastItem(day: ForecastDayModel) {
     }
 }
 
-@Composable
-fun DailyForecastItemLoading() {
-    Column(
-        horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.spacedBy(dimensions.d4)
-    ) {
-        Text(
-            text = stringResource(R.string.zeo_day),
-            style = MaterialTheme.typography.bodyMedium
-        )
-        Box(
-            modifier = Modifier.size(dimensions.d40),
-            contentAlignment = Alignment.Center
-        ) {
-            ProgressBar(R.raw.rainy)
-        }
-
-        Text(
-            text = stringResource(R.string.zero_degree),
-            style = MaterialTheme.typography.bodyLarge,
-            fontWeight = FontWeight.Bold
-        )
-        Text(
-            text = stringResource(R.string.zero_degree),
-            style = MaterialTheme.typography.bodySmall,
-            color = MaterialTheme.colorScheme.onSurfaceVariant
-        )
-        Text(
-            text = stringResource(R.string.zero_procent),
-            style = MaterialTheme.typography.bodySmall,
-            color = Color.Blue
-        )
-    }
-}
 
 @Composable
-fun WeatherDetailCard(title: String, value: String) {
+private fun WeatherDetailCard(title: String, value: String) {
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.spacedBy(dimensions.d4)

@@ -1,6 +1,6 @@
 package ru.weather.data.repository
 
-import ru.weather.data.GeoLocationManager
+import ru.weather.data.datasource.locationsource.GeoLocationManager
 import ru.weather.domain.models.LocationResult
 import ru.weather.domain.repository.LocationRepository
 import javax.inject.Inject

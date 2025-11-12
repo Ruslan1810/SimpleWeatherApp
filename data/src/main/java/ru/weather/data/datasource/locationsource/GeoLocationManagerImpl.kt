@@ -1,4 +1,4 @@
-package ru.weather.data.repository
+package ru.weather.data.datasource.locationsource
 
 import android.Manifest
 import android.content.Context
@@ -7,7 +7,6 @@ import android.location.Location
 import androidx.core.content.ContextCompat
 import com.google.android.gms.location.FusedLocationProviderClient
 import kotlinx.coroutines.suspendCancellableCoroutine
-import ru.weather.data.GeoLocationManager
 import java.util.concurrent.CancellationException
 import javax.inject.Inject
 import kotlin.coroutines.resume
