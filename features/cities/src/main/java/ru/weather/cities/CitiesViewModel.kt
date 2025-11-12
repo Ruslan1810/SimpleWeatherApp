@@ -12,6 +12,5 @@ class CitiesViewModel @Inject constructor(
     override fun handleEvents(event: CitiesContract.Event) {
 
     }
-
     override fun setInitialState()  = CitiesContract.State.default()
 }

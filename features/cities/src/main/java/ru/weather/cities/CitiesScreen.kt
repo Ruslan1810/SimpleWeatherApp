@@ -3,20 +3,13 @@ package ru.weather.cities
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.DateRange
 import androidx.compose.material.icons.filled.Delete
-import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -25,15 +18,37 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.compositionLocalOf
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
+import ru.weather.cities.models.StateEventEffectModel
+import ru.weather.core.base.ScreenRoute
+
+internal val localStateEventEffectModel = compositionLocalOf<StateEventEffectModel> {
+    error("No StateEventEffectModel class found!")
+}
+
+@Composable
+internal fun CitiesScreen() {
+    val viewModel = hiltViewModel<CitiesViewModel>()
+
+    ScreenRoute(viewModel = viewModel) { state, onEvent ->
+        val model = StateEventEffectModel(state = state, event = onEvent)
+
+        CompositionLocalProvider(localStateEventEffectModel provides model) {
+            CitiesContent()
+        }
+    }
+}
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun CitiesScreen() {
+fun CitiesContent() {
 
     Scaffold(
         topBar = {
@@ -56,7 +71,7 @@ fun CitiesScreen() {
 
 //        Spacer(modifier = Modifier.height(24.dp))
 //
-//        // Кнопки действий
+
 //        Row(
 //            modifier = Modifier.fillMaxWidth(),
 //            horizontalArrangement = Arrangement.spacedBy(8.dp)
@@ -78,14 +93,14 @@ fun CitiesScreen() {
 //
 //        Spacer(modifier = Modifier.height(16.dp))
 //
-//        // Состояние загрузки
+
 //        if (state.isLoading) {
 //            CircularProgressIndicator(
 //                modifier = Modifier.align(Alignment.CenterHorizontally)
 //            )
 //        }
 //
-//        // Сообщение об ошибке
+
 //        state.error?.let { error ->
 //            Text(
 //                text = error,
@@ -94,7 +109,7 @@ fun CitiesScreen() {
 //            )
 //        }
 //
-//        // Список городов
+
 //        LazyColumn {
 //            items(10) { city ->
 //                CityListItem(
@@ -162,7 +177,7 @@ fun CityListItem(
                 Text(city.country, style = MaterialTheme.typography.bodyMedium, color = Color.Gray)
             }
             IconButton(onClick = onDeleteClick) {
-                Icon(Icons.Default.Delete, contentDescription = "Delete city", tint = Color.Red)
+                Icon(Icons.Default.Delete, contentDescription = null, tint = Color.Red)
             }
         }
     }

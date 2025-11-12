@@ -2,7 +2,7 @@ package ru.weather.cities.navigation
 
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
-import ru.weather.cities.CitiesNavGraph
+import ru.weather.cities.CitiesScreen
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -12,22 +12,22 @@ class CitiesFeatureApi @Inject constructor() : CitiesApi {
 
     override fun registerGraph(navGraphBuilder: NavGraphBuilder) {
         navGraphBuilder.composable(route = baseRoute) {
-            CitiesNavGraph()
+            CitiesScreen()
         }
 
         navGraphBuilder.composable(route = CitiesDestinations.Common.Search()) {
-//            CitiesSearchNavGraph()
+
         }
 
         navGraphBuilder.composable(route = CitiesDestinations.Common.AddCity()) {
-//            AddCityNavGraph()
+
         }
 
         navGraphBuilder.composable(
             route = CitiesDestinations.Common.CityDetail.getComposableRoute(),
             arguments = CitiesDestinations.Common.CityDetail.arguments
         ) {
-//            CityDetailNavGraph()
+
         }
     }
 }

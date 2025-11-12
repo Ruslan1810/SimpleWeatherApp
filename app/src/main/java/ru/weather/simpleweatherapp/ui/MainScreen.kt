@@ -13,6 +13,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
+import androidx.navigation.AnimBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.currentBackStackEntryAsState
@@ -66,6 +67,9 @@ fun MainScreen(
                         selected = currentDestination?.route == WeatherDestinations.Common.WEATHER_ROOT_ROUTE,
                         onClick = {
                             navController.navigate(WeatherDestinations.Common.WEATHER_ROOT_ROUTE) {
+                                popUpTo(WeatherDestinations.Common.WEATHER_ROOT_ROUTE){
+                                    saveState = true
+                                }
                                 launchSingleTop = true
                                 restoreState = true
                             }
@@ -77,6 +81,9 @@ fun MainScreen(
                         selected = currentDestination?.route == CitiesDestinations.Common.CITIES_ROOT_ROUTE,
                         onClick = {
                             navController.navigate(CitiesDestinations.Common.CITIES_ROOT_ROUTE) {
+                                popUpTo(WeatherDestinations.Common.WEATHER_ROOT_ROUTE){
+                                    saveState = true
+                                }
                                 launchSingleTop = true
                                 restoreState = true
                             }
@@ -88,6 +95,9 @@ fun MainScreen(
                         selected = currentDestination?.route == SettingsDestinations.Common.SETTINGS_ROOT_ROUTE,
                         onClick = {
                             navController.navigate(SettingsDestinations.Common.SETTINGS_ROOT_ROUTE) {
+                                popUpTo(WeatherDestinations.Common.WEATHER_ROOT_ROUTE){
+                                    saveState = true
+                                }
                                 launchSingleTop = true
                                 restoreState = true
                             }

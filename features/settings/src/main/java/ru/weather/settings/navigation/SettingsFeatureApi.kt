@@ -2,7 +2,7 @@ package ru.weather.settings.navigation
 
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
-import ru.weather.settings.SettingsNavGraph
+import ru.weather.settings.SettingsScreen
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -12,15 +12,15 @@ class SettingsFeatureApi @Inject constructor() : SettingsApi {
 
     override fun registerGraph(navGraphBuilder: NavGraphBuilder) {
         navGraphBuilder.composable(route = baseRoute) {
-            SettingsNavGraph()
+            SettingsScreen()
         }
 
         navGraphBuilder.composable(route = SettingsDestinations.Common.Profile()) {
-//            ProfileNavGraph()
+
         }
 
         navGraphBuilder.composable(route = SettingsDestinations.Common.Notifications()) {
-//            NotificationsNavGraph()
+
         }
 
         navGraphBuilder.composable(route = SettingsDestinations.Common.Theme()) {

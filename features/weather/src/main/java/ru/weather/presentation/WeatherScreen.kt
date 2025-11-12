@@ -212,6 +212,7 @@ private fun WeatherContent(
 @Composable
 internal fun CurrentWeatherSection(current: CurrentWeatherModel, location: LocationModel) {
     val event = localStateEventEffectModel.current.event
+    val state = localStateEventEffectModel.current.state
 
     Card(
         modifier = Modifier.fillMaxWidth(),
@@ -262,6 +263,7 @@ internal fun CurrentWeatherSection(current: CurrentWeatherModel, location: Locat
 
                             event(WeatherScreenContract.Event.RequestLocation)
                         },
+                        enabled = state.loadingResult == LoadingResult.SUCCESS
                     ) {
 
                         val infiniteTransition = rememberInfiniteTransition()
